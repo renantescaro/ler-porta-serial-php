@@ -5,17 +5,13 @@ error_reporting(E_ALL);
 class Banco extends PDO{
     
     private static $conexao;
-    private static $usuario  = 'root';
-    private static $senha    = '';
-    private static $banco    = 'zanon_serial';
-    private static $servidor = 'localhost';
 
     private static function conectar(){
         try{
-            self::$conexao = new PDO('mysql:host='.self::$servidor.';dbname='.self::$banco,self::$usuario,self::$senha);
+            self::$conexao = new PDO('mysql:host='.SERVIDOR.';dbname='.BANCO, USUARIO, SENHA);
             self::$conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch(PDOException $error){
-            echo 'ERROR: ' . $e->getMessage();
+            echo 'Erro Conexão: ' . $error->getMessage();
         }
     }
 

@@ -9,9 +9,9 @@ class InicialCtrl{
         $variaveis['pagina'] = 'aqui teste';
 
         // APENAS TESTE
-        $sql = 'SELECT * FROM produtos';
-        $dados = Banco::selecionar($sql);
-
+        $sensor = new SensorDao();
+        $dados = $sensor->selecionarPorNome('potenciometro_1');
+    
         var_dump($dados);
 
         //Render::pagina('view/inicial.php', $variaveis);
