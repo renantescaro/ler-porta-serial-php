@@ -13,14 +13,14 @@ CREATE TABLE sensor(
 	primary key(id)
 );
 
-CREATE TABLE sensor_entradas(
+CREATE TABLE sensorEntrada(
 	id int auto_increment,
 	
 	valor float,
-	data_hora datetime,
-	sensor_id int,
+	dataHora datetime,
+	sensorId int,
 	
-	constraint fk_sensor_id foreign key (sensor_id) references sensor(id),
+	constraint fk_sensor_id foreign key (sensorId) references sensor(id),
 	primary key(id)
 );
 

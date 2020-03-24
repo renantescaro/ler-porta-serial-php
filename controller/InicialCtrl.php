@@ -2,18 +2,28 @@
 
 class InicialCtrl{
 
+    /**
+     * 
+     */
     public static function index(){
 
         $variaveis = [];
         $variaveis['titulo'] = 'Ler Serial';
         $variaveis['pagina'] = 'aqui teste';
 
-        // APENAS TESTE
-        $sensor = new SensorDao();
-        $dados = $sensor->selecionarPorNome('potenciometro_1');
-    
-        var_dump($dados);
+        Render::pagina('view/inicial/index.php', $variaveis);
+    }
 
-        //Render::pagina('view/inicial.php', $variaveis);
+    
+    public static function getRegistroSensorPorDataHora($nomeSensor, $dataHora){
+
+        $dados = SensorEntradaDao::selecionarPorSensorNomeDataHora($nomeSensor, $dataHora);
+        echo(json_encode($dados, true));
+    }
+    
+    public static function getRegistroSensorTodos($nomeSensor){
+
+        $dados = SensorEntradaDao::selecionarPorSensorNome($nomeSensor);
+        echo(json_encode($dados, true));
     }
 }

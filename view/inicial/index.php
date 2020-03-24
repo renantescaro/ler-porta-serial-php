@@ -14,5 +14,10 @@
             <h4><?=$variaveis['pagina']?></h4>
         </div>
     </div>
+
+    <canvas id="canvasGraficoLinha"></canvas>
+
+    <script src="/libs/js/chart.js"></script>
+    <script src="/view/inicial/script.js"></script>
 </body>
 </html>

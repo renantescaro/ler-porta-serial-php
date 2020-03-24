@@ -15,9 +15,32 @@ class Banco extends PDO{
         }
     }
 
-    public static function selecionar(string $query, array $parametros = []){
-        $stmt = self::executar($query, $parametros);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public static function selecionar(string $query, array $parametros = [], $entidade = null){
+        
+        //EXECUTA QUERY NO BANCO DE DADOS
+        $stmt    = self::executar($query, $parametros);
+        $dadosBd = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //SE RECEBER OBJETO COMO PARAMETRO, CONVERTE ENTRAPA PARA ARRAY DO OBJETO
+        if($entidade != null){
+
+            $arrayObj = [];
+            
+            forEach($dadosBd as $dados){
+
+                $objeto = new $entidade();
+                
+                $keys = array_keys($dados);
+    
+                foreach($keys as $key){
+                    $objeto->{$key} = $dados[$key];
+                }
+                $arrayObj[] = $objeto;
+            }
+            return $arrayObj;
+        }
+
+        return $dadosBd;
     }
 
     public static function executar(string $query, array $parametros = []){
