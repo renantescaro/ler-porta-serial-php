@@ -1,0 +1,13 @@
+{
+    "name": "renantescaro/projeto-php-padrao",
+    "description": "Estrutura PHP que eu utilizo em meus projetos",
+    "authors": [
+        {
+            "name": "Renan Tescaro",
+            "email": "renantescaro@yahoo.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    }
+}

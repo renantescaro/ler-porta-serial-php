@@ -1,8 +1,6 @@
 <?PHP
 
-error_reporting(E_ALL);
-
-class Banco extends PDO{
+class Banco{
     
     private static $conexao;
 
@@ -44,6 +42,7 @@ class Banco extends PDO{
     }
 
     public static function executar(string $query, array $parametros = []){
+        
         self::conectar();
         $stmt = self::$conexao->prepare($query);
         self::setParametros($stmt, $parametros);

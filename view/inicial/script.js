@@ -1,5 +1,8 @@
+
 var ctx = document.getElementById('canvasGraficoLinha').getContext('2d')
 var chart 
+
+setDadosSensor()
 
 getTodosDadosSensor()
 
@@ -56,7 +59,7 @@ function montarGrafico(retornoJson){
         data: {
             labels: dataHoras,
             datasets: [{
-                label: 'Valor por Data',
+                label: 'Temperatura por Data Hora',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: valores
@@ -71,4 +74,21 @@ function atualizarGrafico(valorLinha, dataHoraLinha){
     chart.data.datasets[0].data.push(valorLinha)
     chart.data.labels.push(dataHoraLinha)
     chart.update()
+}
+
+function setDadosSensor(){
+
+    setInterval(
+        function(){
+            var get = new XMLHttpRequest()
+            get.open("GET", "/set/sensor/bd", true)
+            get.send()
+            get.onreadystatechange = function(){
+                if(get.readyState == 4 && get.status == 200){
+                    //console.log('setDados ok')
+                }
+            }
+        },
+        3000
+    )
 }
