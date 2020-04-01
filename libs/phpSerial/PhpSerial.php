@@ -70,25 +70,41 @@ class PhpSerial
     }
 
     public function lerSerialGravarBd(){
+
         $this->deviceSet("/dev/ttyUSB0");
         $this->confBaudRate(9600);
         $this->confParity("none");
         $this->confCharacterLength(8);
         $this->confStopBits(1);
         $this->confFlowControl("none");
-        $this->deviceOpen();
 
-        $leituraSerial = explode("\n",$this->readPort());
+        if($this->deviceOpen() == true){
 
-        forEach($leituraSerial as $valor){
-            
-            $sensorEntrada = new SensorEntrada;
-            
-            $sensorEntrada->sensorId = 1;
-            $sensorEntrada->valor = $valor;
-            $sensorEntrada->dataHora = date('y-m-d H:i:s');
+            $valorPortaSerial = $this->readPort();
 
-            SensorEntradaDao::inserir($sensorEntrada);
+            if($valorPortaSerial != false && $valorPortaSerial != ''){
+
+                $leituraSerial = explode("\n",$valorPortaSerial);
+        
+                if(isset($leituraSerial[0]) && $leituraSerial[0] != ''){
+                    
+                    forEach($leituraSerial as $valor){
+                        
+                        $sensorEntrada = new SensorEntrada;
+                        $sensorEntrada->sensorId = 1;
+                        $sensorEntrada->valor = $valor;
+                        $sensorEntrada->dataHora = date('y-m-d H:i:s');
+                        
+                        SensorEntradaDao::inserir($sensorEntrada);
+
+                        echo('foi');
+                    }
+                }
+            }else{
+                echo('porta serial vazia');
+            }
+        }else{
+            echo('Falha ao abir dispositivo');
         }
     }
 
@@ -590,8 +606,8 @@ class PhpSerial
      *                   if less characters are in the buffer)
      * @return string
      */
-    public function readPort($count = 0)
-    {
+    public function readPort($count = 0){
+        
         if ($this->_dState !== SERIAL_DEVICE_OPENED) {
             trigger_error("Device must be opened to read it", E_USER_WARNING);
             return false;

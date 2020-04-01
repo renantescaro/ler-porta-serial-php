@@ -1,32 +1,35 @@
 
 var ctx = document.getElementById('canvasGraficoLinha').getContext('2d')
-var chart 
+var chart = null
 
 setDadosSensor()
 
 getTodosDadosSensor()
 
+//Atualiza gráfico a cada 2 segundos
 setInterval(
     function(){
 
-        indexUltimoRegistro = (chart.data.labels.length)-1
-        ultimaDataHora = chart.data.labels[indexUltimoRegistro]
-
-        var get = new XMLHttpRequest()
-        get.open("GET", "/get/sensor/data/hora?sensor=potenciometro_1&dataHora="+ultimaDataHora, true)
-        get.send()
-        get.onreadystatechange = function(){
-            
-            if(get.readyState == 4 && get.status == 200){
+        if(chart != null){
+            indexUltimoRegistro = (chart.data.labels.length)-1
+            ultimaDataHora = chart.data.labels[indexUltimoRegistro]
+    
+            var get = new XMLHttpRequest()
+            get.open("GET", "/get/sensor/data/hora?sensor=potenciometro_1&dataHora="+ultimaDataHora, true)
+            get.send()
+            get.onreadystatechange = function(){
                 
-                dadosSensor = JSON.parse(get.responseText)
-
-                if(dadosSensor.length > 0){
-                    atualizarGrafico(dadosSensor[0].valor, dadosSensor[0].dataHora)
+                if(get.readyState == 4 && get.status == 200){
+                    
+                    dadosSensor = JSON.parse(get.responseText)
+    
+                    if(dadosSensor.length > 0){
+                        atualizarGrafico(dadosSensor[0].valor, dadosSensor[0].dataHora)
+                    }
                 }
             }
         }
-    },2000
+    },3000
 )
     
 function getTodosDadosSensor(){
@@ -85,7 +88,7 @@ function setDadosSensor(){
             get.send()
             get.onreadystatechange = function(){
                 if(get.readyState == 4 && get.status == 200){
-                    //console.log('setDados ok')
+                    console.log(get.responseText)
                 }
             }
         },
